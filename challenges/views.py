@@ -15,7 +15,7 @@ months = {
     "september": "Learn Django for at least 20 minutes every day!",
     "october": "Eat no meat for the entire month!",
     "november": "Walk for at least 20 minutes every day!",
-    "december": "Learn Django for at least 20 minutes every day!",
+    "december": None,
 }
 
 def monthly_challenge_by_number(request: HttpRequest, month: int) -> HttpResponse:
@@ -28,22 +28,7 @@ def monthly_challenge(request: HttpRequest, month: str) -> HttpResponse:
     if month not in months:
         return HttpResponseNotFound("Invalid month!")
     
-    return HttpResponse(months[month])
+    return render(request, "challenges/challenge.html", { "challenge": months[month], "month": month })
 
 def index(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("""
-        <ul>
-            <li><a href="january">January</a></li>
-            <li><a href="february">February</a></li>
-            <li><a href="march">March</a></li>
-            <li><a href="april">April</a></li>
-            <li><a href="may">May</a></li>
-            <li><a href="june">June</a></li>
-            <li><a href="july">July</a></li>
-            <li><a href="august">August</a></li>
-            <li><a href="september">September</a></li>
-            <li><a href="october">October</a></li>
-            <li><a href="november">November</a></li>
-            <li><a href="december">December</a></li>
-        </ul>
-    """)
+    return render(request, "challenges/index.html", { "months": months.keys() })
